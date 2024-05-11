@@ -1,0 +1,45 @@
+{
+    "name": "bradietilley/number",
+    "description": "A number helper class and root ecosystem",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "BradieTilley\\Number\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Bradie Tilley",
+            "homepage": "https://github.com/bradietilley"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "ext-bcmath": "*",
+        "bradietilley/bcmath-number": "dev-main"
+    },
+    "require-dev": {
+        "symfony/var-dumper": "^6.4 || ^7.0",
+        "laravel/pint": "^1.15",
+        "pestphp/pest": "^2.34",
+        "phpstan/phpstan": "^1.10"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "repositories": {
+        "bradietilley/bcmath-number": {
+            "type": "path",
+            "url": "../bcmath-number"
+        }
+    }
+}
