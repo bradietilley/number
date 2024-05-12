@@ -9,17 +9,37 @@ use BCMath\Number as BCNumber;
  */
 trait HasRandom
 {
-    public static function random(int $min = PHP_INT_MIN, int $max = PHP_INT_MAX): static
+    public const RANDOM_NUMBER_SCALE = 100;
+
+    public static function random(Number|BCNumber|string|int|float $min = PHP_INT_MIN, Number|BCNumber|string|int|float $max = PHP_INT_MAX): static
     {
-        if ($min > $max) {
+        $min = static::of($min)->round();
+        $max = static::of($max)->round();
+
+        if ($min->gt($max)) {
             $oldMax = $max;
             $max = $min;
             $min = $oldMax;
         }
 
-        $random = random_int($min, $max);
+        if ($min->isIntegerSafe() && $max->isIntegerSafe()) {
+            $min = $min->toInteger();
+            $max = $max->toInteger();
 
-        return static::of($random);
+            return static::of(random_int($min, $max));
+        }
+
+        $range = $max->sub($min)->raiseTenfold();
+        $random = '0.';
+
+        foreach (range(1, static::RANDOM_NUMBER_SCALE) as $i) {
+            $random .= random_int(0, 9);
+        }
+
+        $offset = $range->mul($random, static::RANDOM_NUMBER_SCALE)->reduceTenfold();
+        $random = $min->add($offset, 0);
+
+        return $random;
     }
 
     public static function randomDecimal(Number|BCNumber|string|int|float $min = PHP_INT_MIN, Number|BCNumber|string|int|float $max = PHP_INT_MAX): static
@@ -38,8 +58,8 @@ trait HasRandom
         $min = $min->toScale($scale)->raiseTenfold($scale)->truncate();
         $max = $max->toScale($scale)->raiseTenfold($scale)->truncate();
 
-        $random = static::random($min->toInteger(), $max->toInteger());
-        $decimal = $random->reduceTenfold($scale);
+        $random = static::random($min, $max);
+        $decimal = $random->reduceTenfold($scale, $scale);
 
         return $decimal;
     }

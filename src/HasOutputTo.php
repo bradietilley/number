@@ -75,4 +75,15 @@ trait HasOutputTo
 
         return static::of($decimal);
     }
+
+    public function getInteger(): static
+    {
+        [$whole, $decimal] = static::parseFragments($this->value);
+
+        if ($decimal === '') {
+            return static::zero();
+        }
+
+        return static::of($decimal);
+    }
 }

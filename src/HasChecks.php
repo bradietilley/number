@@ -122,4 +122,13 @@ trait HasChecks
 
         return $thisValue->eq($thatValue);
     }
+
+    /**
+     * Can this Number be represented as an integer in PHP, taking into
+     * consideration the MIN and MAX integer sizes that PHP supports.
+     */
+    public function isIntegerSafe(): bool
+    {
+        return $this->gte(PHP_INT_MIN) && $this->lte(PHP_INT_MAX);
+    }
 }
