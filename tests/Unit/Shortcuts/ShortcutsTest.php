@@ -9,6 +9,6 @@ test('Number can create numbers using shortcuts', function (string $method, stri
 })->with([
     ['pi', Number::PI],
     ['e', Number::E],
-    ['zero', (string) Number::ZERO],
-    ['one', (string) Number::ONE],
+    ['zero', Number::ZERO],
+    ['one', Number::ONE],
 ]);

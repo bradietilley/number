@@ -9,26 +9,41 @@ use BCMath\Number as BCNumber;
  */
 trait ForwardsCalls
 {
+    /**
+     * @param int<1, 4> $roundingMode
+     */
     public function add(Number|BCNumber|string|int $num, ?int $scale = null, int $roundingMode = PHP_ROUND_HALF_UP): static
     {
         return static::of($this->number->add($num, $scale, $roundingMode));
     }
 
+    /**
+     * @param int<1, 4> $roundingMode
+     */
     public function sub(Number|BCNumber|string|int $num, ?int $scale = null, int $roundingMode = PHP_ROUND_HALF_UP): static
     {
         return static::of($this->number->sub($num, $scale, $roundingMode));
     }
 
+    /**
+     * @param int<1, 4> $roundingMode
+     */
     public function mul(Number|BCNumber|string|int $num, ?int $scale = null, int $roundingMode = PHP_ROUND_HALF_UP): static
     {
         return static::of($this->number->mul($num, $scale, $roundingMode));
     }
 
+    /**
+     * @param int<1, 4> $roundingMode
+     */
     public function div(Number|BCNumber|string|int $num, ?int $scale = null, int $roundingMode = PHP_ROUND_HALF_UP): static
     {
         return static::of($this->number->div($num, $scale, $roundingMode));
     }
 
+    /**
+     * @param int<1, 4> $roundingMode
+     */
     public function mod(Number|BCNumber|string|int $num, ?int $scale = null, int $roundingMode = PHP_ROUND_HALF_UP): static
     {
         return static::of($this->number->mod($num, $scale, $roundingMode));
@@ -39,11 +54,17 @@ trait ForwardsCalls
         return static::of($this->number->powmod($exponent, $modulus));
     }
 
+    /**
+     * @param int<1, 4> $roundingMode
+     */
     public function pow(Number|BCNumber|string|int $exponent, int $minScale, ?int $scale = null, int $roundingMode = PHP_ROUND_HALF_UP): static
     {
         return static::of($this->number->pow($exponent, $minScale, $scale, $roundingMode));
     }
 
+    /**
+     * @param int<1, 4> $roundingMode
+     */
     public function sqrt(?int $scale = null, int $roundingMode = PHP_ROUND_HALF_UP): static
     {
         return static::of($this->number->sqrt($scale, $roundingMode));
@@ -59,6 +80,9 @@ trait ForwardsCalls
         return static::of($this->number->ceil());
     }
 
+    /**
+     * @param int<1, 4> $mode
+     */
     public function round(int $precision = 0, int $mode = PHP_ROUND_HALF_UP): static
     {
         return static::of($this->number->round($precision, $mode));
@@ -94,6 +118,9 @@ trait ForwardsCalls
         return $this->number->lte($num, $scale);
     }
 
+    /**
+     * @param int<1, 4> $roundingMode
+     */
     public function format(?int $scale = null, int $roundingMode = PHP_ROUND_HALF_UP, string $decimalSeparator = Number::DECIMAL_SEPARATOR, string $thousandsSeparator = Number::THOUSANDS_SEPARATOR): string
     {
         return $this->format($scale, $roundingMode, $decimalSeparator, $thousandsSeparator);

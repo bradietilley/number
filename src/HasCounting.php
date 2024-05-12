@@ -11,9 +11,10 @@ trait HasCounting
 {
     public static function sum(Number|BCNumber|string|int ...$numbers): static
     {
+        /** @var static $total */
         $total = array_reduce(
             $numbers,
-            fn (Number $total, Number|BCNumber|string|int $item) => $total->add($item),
+            fn (Number $total, Number|BCNumber|string|int $num) => $total->add($num),
             static::zero()
         );
 
@@ -22,9 +23,10 @@ trait HasCounting
 
     public static function maxScale(Number|BCNumber|string|int ...$numbers): int
     {
+        /** @var int $max */
         $max = array_reduce(
             $numbers,
-            fn (int $max, Number|BCNumber|string|int $item) => max($max, static::of($item)->scale),
+            fn (int $max, Number|BCNumber|string|int $num) => (int) max($max, static::of($num)->scale), /** @phpstan-ignore-line */
             0,
         );
 
@@ -33,13 +35,14 @@ trait HasCounting
 
     public static function minScale(Number|BCNumber|string|int ...$numbers): int
     {
+        /** @var ?int $min */
         $min = array_reduce(
             $numbers,
-            fn (int $min, Number|BCNumber|string|int $item) => min($min, static::of($item)->scale),
-            INF,
+            fn (?int $min, Number|BCNumber|string|int $num) => (int) min($min ?? INF, static::of($num)->scale), /** @phpstan-ignore-line */
+            null,
         );
 
-        return $min === INF ? 0 : $min;
+        return $min === null ? 0 : $min;
     }
 
     public static function mean(Number|BCNumber|string|int ...$numbers): static
@@ -79,12 +82,13 @@ trait HasCounting
 
     public static function minimum(Number|BCNumber|string|int ...$numbers): static
     {
-        $first = static::of(array_pop($numbers));
+        $last = array_pop($numbers);
+        $start = static::of($last);
 
         $min = array_reduce(
             $numbers,
-            fn (Number $min, Number|BCNumber|string|int $item) => $min->min($item),
-            $first,
+            fn (Number $min, Number|BCNumber|string|int $num) => $min->min($num),
+            $start,
         );
 
         return $min;
@@ -96,7 +100,7 @@ trait HasCounting
 
         $min = array_reduce(
             $numbers,
-            fn (Number $min, Number|BCNumber|string|int $item) => $min->max($item),
+            fn (Number $min, Number|BCNumber|string|int $num) => $min->max($num),
             $first,
         );
 

@@ -3,6 +3,7 @@
 namespace BradieTilley\Number;
 
 use BCMath\Number as BCNumber;
+use Exception;
 use Stringable;
 
 /**
@@ -17,6 +18,7 @@ class Number implements Stringable
     use HasCounting;
     use HasChecks;
     use HasCleaning;
+    use HasHelpers;
 
     public const NEGATIVE_SYMBOL = '-';
 
@@ -24,9 +26,9 @@ class Number implements Stringable
 
     public const THOUSANDS_SEPARATOR = '';
 
-    public const ZERO = 0;
+    public const ZERO = '0';
 
-    public const ONE = 1;
+    public const ONE = '1';
 
     public BCNumber $number;
 
@@ -35,9 +37,17 @@ class Number implements Stringable
         $this->number = new BCNumber((string) $num);
     }
 
-    public function __get($name)
+    /**
+     * @param string $name
+     */
+    public function __get($name): string|int
     {
-        return $this->number->{$name};
+        if ($name === 'value' || $name === 'scale') {
+            return $this->number->{$name};
+        }
+
+        /** throw exception */
+        return $this->{$name};
     }
 
     public static function of(Number|BCNumber|string|int $num): static
