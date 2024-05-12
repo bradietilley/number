@@ -22,6 +22,8 @@ class Number implements Stringable
 
     public const DECIMAL_SEPARATOR = '.';
 
+    public const THOUSANDS_SEPARATOR = '';
+
     public const ZERO = 0;
 
     public const ONE = 1;
