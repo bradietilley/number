@@ -62,6 +62,7 @@ trait HasCounting
 
         /** Sort natural order */
         natsort($numbers);
+        $numbers = array_values($numbers);
 
         /**
          * Find middle
