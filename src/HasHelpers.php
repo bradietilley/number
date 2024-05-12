@@ -2,6 +2,8 @@
 
 namespace BradieTilley\Number;
 
+use BCMath\Number as BCNumber;
+
 /**
  * @mixin Number
  */
@@ -13,7 +15,7 @@ trait HasHelpers
      *
      * This does not exist in the RFC and is therefore protected.
      */
-    protected static function determineScale(Number|string|int $value): int
+    protected static function determineScale(Number|BCNumber|string|int $value): int
     {
         $value = (string) $value;
         $pos = strrchr($value, Number::DECIMAL_SEPARATOR);
@@ -36,7 +38,7 @@ trait HasHelpers
      *
      * @param int<1, 4> $roundingMode
      */
-    protected static function roundTo(Number|string|int $num, ?int $scale, int $roundingMode): string
+    protected static function roundTo(Number|BCNumber|string|int $num, ?int $scale, int $roundingMode): string
     {
         $num = (string) $num;
         $scale ??= self::determineScale($num);
@@ -68,7 +70,7 @@ trait HasHelpers
      *
      * @param int<1, 4> $roundingMode
      */
-    protected static function rounded(Number|string|int $num, ?int $scale, int $roundingMode): static
+    protected static function rounded(Number|BCNumber|string|int $num, ?int $scale, int $roundingMode): static
     {
         $rounded = self::roundTo($num, $scale, $roundingMode);
 
@@ -78,7 +80,7 @@ trait HasHelpers
     /**
      * Format the given number with the given configuration
      */
-    protected static function formatTo(Number|string|int $num, string $decimalSeparator = Number::DECIMAL_SEPARATOR, string $thousandsSeparator = Number::THOUSANDS_SEPARATOR): string
+    protected static function formatTo(Number|BCNumber|string|int $num, string $decimalSeparator = Number::DECIMAL_SEPARATOR, string $thousandsSeparator = Number::THOUSANDS_SEPARATOR): string
     {
         $num = (string) $num;
 
@@ -106,29 +108,6 @@ trait HasHelpers
         $wholeNumber = strrev($pending);
 
         return $wholeNumber.$decimalSeparator.$decimalNumber;
-    }
-
-    /**
-     * Parse the given number and extract the whole number and decimal number
-     *
-     * @return array<int, string>
-     */
-    protected static function parseFragments(Number|string|int $num): array
-    {
-        $num = (string) $num;
-        $pos = strpos($num, Number::DECIMAL_SEPARATOR);
-        $wholeNumber = $num;
-        $decimalNumber = '';
-
-        if ($pos !== false) {
-            $wholeNumber = substr($num, 0, $pos);
-            $decimalNumber = substr($num, $pos + 1);
-        }
-
-        return [
-            $wholeNumber,
-            $decimalNumber,
-        ];
     }
 
     /**

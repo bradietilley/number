@@ -19,6 +19,7 @@ class Number implements Stringable
     use HasChecks;
     use HasCleaning;
     use HasHelpers;
+    use HasModifications;
 
     public const NEGATIVE_SYMBOL = '-';
 
@@ -50,7 +51,7 @@ class Number implements Stringable
         return $this->{$name};
     }
 
-    public static function of(Number|BCNumber|string|int $num): static
+    public static function of(Number|BCNumber|string|int|float $num): static
     {
         if ($num instanceof static) {
             return $num;
@@ -72,7 +73,7 @@ class Number implements Stringable
      *
      * @return array<int, string>
      */
-    protected static function parseFragments(Number|string|int $num): array
+    public static function parseFragments(Number|BCNumber|string|int $num): array
     {
         $num = (string) $num;
         $pos = strpos($num, self::DECIMAL_SEPARATOR);
