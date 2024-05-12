@@ -7,6 +7,9 @@ namespace BradieTilley\Number;
  */
 trait HasCleaning
 {
+    /**
+     * Remove trailing zero decimals down to the given min scale
+     */
     public function clean(int $minScale): static
     {
         return static::of(
@@ -14,6 +17,9 @@ trait HasCleaning
         );
     }
 
+    /**
+     * Remove trailing zero decimals
+     */
     public function truncate(): static
     {
         return $this->clean(0);
