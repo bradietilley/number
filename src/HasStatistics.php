@@ -7,7 +7,7 @@ use BCMath\Number as BCNumber;
 /**
  * @mixin Number
  */
-trait HasCounting
+trait HasStatistics
 {
     public static function sum(Number|BCNumber|string|int ...$numbers): static
     {

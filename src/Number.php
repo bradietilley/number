@@ -15,7 +15,7 @@ class Number implements Stringable
     use ForwardsCalls;
     use HasOutputTo;
     use HasShortcuts;
-    use HasCounting;
+    use HasStatistics;
     use HasChecks;
     use HasCleaning;
     use HasHelpers;
