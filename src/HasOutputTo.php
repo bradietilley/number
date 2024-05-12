@@ -64,4 +64,15 @@ trait HasOutputTo
 
         return $roman;
     }
+
+    public function getDecimal(): static
+    {
+        [$whole, $decimal] = static::parseFragments($this->value);
+
+        if ($decimal === '') {
+            return static::zero();
+        }
+
+        return static::of($decimal);
+    }
 }
