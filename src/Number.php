@@ -20,6 +20,7 @@ class Number implements Stringable
     use HasCleaning;
     use HasHelpers;
     use HasModifications;
+    use HasRandom;
 
     public const NEGATIVE_SYMBOL = '-';
 
@@ -30,6 +31,8 @@ class Number implements Stringable
     public const ZERO = '0';
 
     public const ONE = '1';
+
+    public const TEN = '10';
 
     public BCNumber $number;
 

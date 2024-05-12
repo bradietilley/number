@@ -99,6 +99,17 @@ trait HasChecks
         return $this->abs()->mod(2)->eq(1);
     }
 
+    public function in(Number|BCNumber|string|int ...$numbers): bool
+    {
+        foreach ($numbers as $num) {
+            if ($this->eq($num)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public function isSameInteger(Number|BCNumber|string|int $other): bool
     {
         return $this->round()->toInteger() === static::of($other)->round()->toInteger();
