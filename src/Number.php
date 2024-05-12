@@ -5,6 +5,10 @@ namespace BradieTilley\Number;
 use BCMath\Number as BCNumber;
 use Stringable;
 
+/**
+ * @property-read string $value
+ * @property-read int $scale
+ */
 class Number implements Stringable
 {
     use ForwardsCalls;
@@ -12,6 +16,7 @@ class Number implements Stringable
     use HasShortcuts;
     use HasCounting;
     use HasChecks;
+    use HasCleaning;
 
     public const NEGATIVE_SYMBOL = '-';
 
@@ -26,6 +31,11 @@ class Number implements Stringable
     public function __construct(Number|BCNumber|string|int $num)
     {
         $this->number = new BCNumber((string) $num);
+    }
+
+    public function __get($name)
+    {
+        return $this->number->{$name};
     }
 
     public static function of(Number|BCNumber|string|int $num): static
@@ -43,5 +53,28 @@ class Number implements Stringable
     public function __toString(): string
     {
         return (string) $this->number;
+    }
+
+    /**
+     * Parse the given number and extract the whole number and decimal number
+     *
+     * @return array<int, string>
+     */
+    protected static function parseFragments(Number|string|int $num): array
+    {
+        $num = (string) $num;
+        $pos = strpos($num, self::DECIMAL_SEPARATOR);
+        $wholeNumber = $num;
+        $decimalNumber = '';
+
+        if ($pos !== false) {
+            $wholeNumber = substr($num, 0, $pos);
+            $decimalNumber = substr($num, $pos + 1);
+        }
+
+        return [
+            $wholeNumber,
+            $decimalNumber,
+        ];
     }
 }
