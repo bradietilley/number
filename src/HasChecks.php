@@ -88,4 +88,27 @@ trait HasChecks
         // If no divisor was found, it's a prime number
         return true;
     }
+
+    public function isEven(): bool
+    {
+        return $this->abs()->mod(2)->eq(0);
+    }
+
+    public function isOdd(): bool
+    {
+        return $this->abs()->mod(2)->eq(1);
+    }
+
+    public function isSameInteger(Number|BCNumber|string|int $other): bool
+    {
+        return $this->round()->toInteger() === static::of($other)->round()->toInteger();
+    }
+
+    public function isSameDecimal(Number|BCNumber|string|int $other): bool
+    {
+        $thisValue = $this->truncate()->getDecimal();
+        $thatValue = static::of($other)->truncate()->getDecimal();
+
+        return $thisValue->eq($thatValue);
+    }
 }
